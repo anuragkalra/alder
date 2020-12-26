@@ -18,17 +18,37 @@ func main() {
 	debts := getDebts()
 	fmt.Println(debts)
 
-	payments := getPayments()
-	fmt.Println(payments)
+	//foo(debts)
+
+	//payments := getPayments()
+	//fmt.Println(payments)
 
 	paymentPlans := getPaymentPlans()
 	fmt.Println(paymentPlans)
+
+	outputDebts(debts, paymentPlans)
+	fmt.Println(debts)
+}
+
+// Problem 1
+func outputDebts(debts []Debt, paymentPlans []PaymentPlan) {
+	m := make(map[int]int)
+	for _, pp := range paymentPlans {
+		m[pp.DebtID] = pp.ID
+	}
+
+	for i, d := range debts {
+		if _, ok := m[d.ID]; ok {
+			debts[i].IsInPaymentPlan = true
+		}
+	}
 }
 
 //Debt represents a struct from the debtsURL endpoint
 type Debt struct {
-	Amount float64 `json:"amount"`
-	ID     int     `json:"id"`
+	Amount          float64 `json:"amount"`
+	ID              int     `json:"id"`
+	IsInPaymentPlan bool
 }
 
 //Payment represents a struct from the paymentsURL endpoint
