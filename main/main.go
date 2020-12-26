@@ -95,37 +95,3 @@ func getPaymentPlans() []PaymentPlan {
 	}
 	return paymentPlans
 }
-
-func paymentPlansOutput() error {
-	resp, err := http.Get(paymentPlansURL)
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	//We Read the response body on the line below.
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatalln(err)
-	}
-	//Convert the body to type string
-	sb := string(body)
-	log.Printf(sb)
-	return nil
-}
-
-func paymentsOutput() error {
-	resp, err := http.Get(paymentsURL)
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	//We Read the response body on the line below.
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatalln(err)
-	}
-	//Convert the body to type string
-	sb := string(body)
-	log.Printf(sb)
-	return nil
-}
