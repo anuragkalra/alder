@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"time"
 )
 
 const (
@@ -18,11 +19,6 @@ func main() {
 	debts := getDebts()
 	fmt.Println(debts)
 
-	//foo(debts)
-
-	//payments := getPayments()
-	//fmt.Println(payments)
-
 	paymentPlans := getPaymentPlans()
 	fmt.Println(paymentPlans)
 
@@ -30,8 +26,13 @@ func main() {
 	fmt.Println(debts)
 }
 
+// For testing std out example
+func Hello() {
+	fmt.Println("hello")
+}
+
 // Problem 1
-func outputDebts(debts []Debt, paymentPlans []PaymentPlan) {
+func outputDebts(debts []Debt, paymentPlans []PaymentPlan) error {
 	m := make(map[int]int)
 	for _, pp := range paymentPlans {
 		m[pp.DebtID] = pp.ID
@@ -42,13 +43,16 @@ func outputDebts(debts []Debt, paymentPlans []PaymentPlan) {
 			debts[i].IsInPaymentPlan = true
 		}
 	}
+	return nil
 }
 
 //Debt represents a struct from the debtsURL endpoint
 type Debt struct {
-	Amount          float64 `json:"amount"`
-	ID              int     `json:"id"`
-	IsInPaymentPlan bool
+	Amount             float64   `json:"amount"`
+	ID                 int       `json:"id"`
+	IsInPaymentPlan    bool      `json:"is_in_payment_plan"`
+	RemainingAmount    int       `json:"remaining_amount"`      //Problem 3
+	NextPaymentDueDate time.Time `json:"next_payment_due_date"` //Problem 4
 }
 
 //Payment represents a struct from the paymentsURL endpoint
