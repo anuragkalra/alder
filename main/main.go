@@ -1,8 +1,6 @@
 package main
 
 import (
-	//"fmt"
-
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -10,9 +8,11 @@ import (
 	"net/http"
 )
 
-const debtsURL = "https://my-json-server.typicode.com/druska/trueaccord-mock-payments-api/debts"
-const paymentPlansURL = "https://my-json-server.typicode.com/druska/trueaccord-mock-payments-api/payment_plans"
-const paymentsURL = "https://my-json-server.typicode.com/druska/trueaccord-mock-payments-api/payments"
+const (
+	debtsURL        = "https://my-json-server.typicode.com/druska/trueaccord-mock-payments-api/debts"
+	paymentPlansURL = "https://my-json-server.typicode.com/druska/trueaccord-mock-payments-api/payment_plans"
+	paymentsURL     = "https://my-json-server.typicode.com/druska/trueaccord-mock-payments-api/payments"
+)
 
 func main() {
 	debts := getDebts()
