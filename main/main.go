@@ -27,10 +27,14 @@ func run() {
 
 	computeDebtInfo(debts, paymentPlans, payments)
 
-	prettyDebts := prettifyDebts(debts)
-	for _, pd := range prettyDebts {
-		fmt.Println(pd)
+	for _, d := range debts {
+		fmt.Println(d)
 	}
+
+	// prettyDebts := prettifyDebts(debts)
+	// for _, pd := range prettyDebts {
+	// 	fmt.Println(pd)
+	// }
 }
 
 func computeDebtInfo(debts []Debt, paymentPlans []PaymentPlan, payments []Payment) error {
@@ -44,24 +48,6 @@ func computeDebtInfo(debts []Debt, paymentPlans []PaymentPlan, payments []Paymen
 	updateNextPaymentDueDate(debts, paymentPlans, payments)
 
 	return nil
-}
-
-func prettifyDebts(debts []Debt) []PrettyDebt {
-	pds := make([]PrettyDebt, 0)
-	for _, d := range debts {
-		pd := PrettyDebt{}
-		pd.Amount = d.Amount
-		pd.ID = d.ID
-		pd.IsInPaymentPlan = d.IsInPaymentPlan
-		pd.RemainingAmount = d.RemainingAmount
-		if d.NextPaymentDueDate.IsZero() {
-			pd.NextPaymentDueDate = "null"
-		} else {
-			pd.NextPaymentDueDate = d.NextPaymentDueDate.String()
-		}
-		pds = append(pds, pd)
-	}
-	return pds
 }
 
 func updateIsInPaymentPlan(debts []Debt, paymentPlans []PaymentPlan) error {
