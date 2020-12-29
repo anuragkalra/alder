@@ -16,9 +16,13 @@ For this assignment, I chose to write it using Go. I used Go because it is fast,
 
 ##### Installation and Running:
 `$ git clone https://github.com/anuragkalra/alder.git`
+
 `$ cd alder/main`
+ 
 `$ go install`
+
 `$ go build`
+
 `$ ./main`
 
 ##### Running Tests:
