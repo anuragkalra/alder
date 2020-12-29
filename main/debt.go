@@ -18,20 +18,23 @@ type Debt struct {
 	NextPaymentDueDate time.Time `json:"next_payment_due_date"`
 }
 
-func getDebts() []Debt {
+func getDebts() ([]Debt, error) {
 	resp, err := http.Get(debtsURL)
 	if err != nil {
+		return nil, err
 		log.Fatalln(err)
 	}
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
+		return nil, err
 		log.Fatalln(err)
 	}
 	debts := make([]Debt, 0)
 	if err = json.Unmarshal(body, &debts); err != nil {
+		return nil, err
 		log.Fatalln(err)
 	}
-	return debts
+	return debts, nil
 }
 
 func (d Debt) String() string {

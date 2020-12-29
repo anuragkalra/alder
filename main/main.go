@@ -1,7 +1,9 @@
 package main
 
 import (
+	"errors"
 	"fmt"
+	"log"
 	"time"
 )
 
@@ -17,35 +19,50 @@ const (
 )
 
 func main() {
-	run()
+	Run()
 }
 
-func run() {
-	debts := getDebts()
-	paymentPlans := getPaymentPlans()
-	payments := getPayments()
+//Run is the method for executing the program
+func Run() {
+	debts, err := getDebts()
+	if err != nil {
+		log.Fatalln(err)
+	}
 
-	computeDebtInfo(debts, paymentPlans, payments)
+	paymentPlans, err := getPaymentPlans()
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	payments, err := getPayments()
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	ComputeDebtInfo(debts, paymentPlans, payments)
 
 	for _, d := range debts {
 		fmt.Println(d)
 	}
-
-	// prettyDebts := prettifyDebts(debts)
-	// for _, pd := range prettyDebts {
-	// 	fmt.Println(pd)
-	// }
 }
 
-func computeDebtInfo(debts []Debt, paymentPlans []PaymentPlan, payments []Payment) error {
+// ComputeDebtInfo takes as parameter the debts, paymentPlans, and payments and computes the following fields on the debts slice:
+// is_in_payment_plan, remaining_amount, next_payment_due_date
+func ComputeDebtInfo(debts []Debt, paymentPlans []PaymentPlan, payments []Payment) error {
 	//is_in_payment_plan
-	updateIsInPaymentPlan(debts, paymentPlans)
+	if err := updateIsInPaymentPlan(debts, paymentPlans); err != nil {
+		return err
+	}
 
 	//remaining_amount
-	updateRemainingAmount(debts, paymentPlans, payments)
+	if err := updateRemainingAmount(debts, paymentPlans, payments); err != nil {
+		return err
+	}
 
 	//next_payment_due_date
-	updateNextPaymentDueDate(debts, paymentPlans, payments)
+	if err := updateNextPaymentDueDate(debts, paymentPlans, payments); err != nil {
+		return err
+	}
 
 	return nil
 }
@@ -74,7 +91,6 @@ func updateRemainingAmount(debts []Debt, paymentPlans []PaymentPlan, payments []
 			debts[i].RemainingAmount = d.Amount
 		}
 	}
-
 	return nil
 }
 
@@ -105,6 +121,9 @@ func updateNextPaymentDueDate(debts []Debt, paymentPlans []PaymentPlan, payments
 				debts[i].NextPaymentDueDate = lpd.Add(week)
 			} else if insfreq == "BI_WEEKLY" {
 				debts[i].NextPaymentDueDate = lpd.Add(twoWeeks)
+			} else {
+				//Create an error: frequency out of range
+				return errors.New("Unknown Payment Plan Frequency")
 			}
 		}
 	}

@@ -17,18 +17,21 @@ type PaymentPlan struct {
 	StartDate            string  `json:"start_date"`
 }
 
-func getPaymentPlans() []PaymentPlan {
+func getPaymentPlans() ([]PaymentPlan, error) {
 	resp, err := http.Get(paymentPlansURL)
 	if err != nil {
+		return nil, err
 		log.Fatalln(err)
 	}
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
+		return nil, err
 		log.Fatalln(err)
 	}
 	paymentPlans := make([]PaymentPlan, 0)
 	if err = json.Unmarshal(body, &paymentPlans); err != nil {
+		return nil, err
 		log.Fatalln(err)
 	}
-	return paymentPlans
+	return paymentPlans, nil
 }

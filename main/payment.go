@@ -14,18 +14,25 @@ type Payment struct {
 	PaymentPlanID int     `json:"payment_plan_id"`
 }
 
-func getPayments() []Payment {
+func getPayments() ([]Payment, error) {
 	resp, err := http.Get(paymentsURL)
+	if resp.StatusCode != 200 {
+		return nil, httpStatusError("Unexpected HTTP response: ", resp.StatusCode)
+	}
 	if err != nil {
+		return nil, err
 		log.Fatalln(err)
 	}
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
+		return nil, err
 		log.Fatalln(err)
 	}
 	payments := make([]Payment, 0)
 	if err = json.Unmarshal(body, &payments); err != nil {
+		return nil, err
 		log.Fatalln(err)
 	}
-	return payments
+	//return nil, nil
+	return payments, nil
 }
