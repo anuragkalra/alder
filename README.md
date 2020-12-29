@@ -42,6 +42,15 @@ All program logic is in main/. Data structures and funcs are described in indivi
 - For the **next_payment_due_date** associated with a Debt object, when the first payment is sent after the original **start_date** associated with the Payment Plan, we compute the value by taking the most recent payment and adding the corresponding time interval.
 - When payments have been contributed to a payment plan prior to the **start_date** associated, the original Payment Plan **start_date** will be used to compute the **next_payment_due_date** for the Debt.
 
+##### Process and Approach
+- Understand problem and look at API endpoint responses and structure
+- Outline general design
+- Build mock responders and data backend
+- Write application code along with tests
+- Verify program correctness iteratively
+- Follow up with TrueAccord regarding assumptions and clarifications via email
+- Ensure high level of test coverage, relevant comments, readability, and documentation
+
 ##### Improvements
 - When we are working with APIs, we should prepare for all sorts of responses, reliability, and behaviors. For this assignment I generally assumed that the API provided was reliable and returns predictable response formats. If working with a more complex API, it would be important to cover a larger range of behaviors and respond accordingly. In the situation where an API requires authentication, we may have to provide API keys, complete an Oauth exchange, or interface with JWT. We would have to deal specifically with HTTP status codes 401, 403, etc. Given that we are only retrieving information (making GET requests) we can generally expect 200 OK responses. If we were updating/deleting/posting data we would need to account for those HTTP responses as well.
 - The API urls provided are coded as static strings in this program. In the future this program could be easily extended to accept urls as command line parameters.
