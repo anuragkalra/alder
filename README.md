@@ -15,6 +15,12 @@ For this assignment, I chose to write it using Go. I used Go because it is fast,
 #### Installing, Running, and Testing the Program:
 
 ##### Installation and Running:
+This application depends on Go.
+https://golang.org/doc/install
+
+Once Go is installed you can install and run the program.
+
+
 `$ git clone https://github.com/anuragkalra/alder.git`
 
 `$ cd alder/main`
