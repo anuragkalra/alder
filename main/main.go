@@ -108,7 +108,7 @@ func totalPaid(paymentPlanID int, payments []Payment) float64 {
 func updateNextPaymentDueDate(debts []Debt, paymentPlans []PaymentPlan, payments []Payment) error {
 	for i, d := range debts {
 		if d.RemainingAmount == 0 || !d.IsInPaymentPlan {
-			debts[i].NextPaymentDueDate = time.Time{} //zero value "null"
+			debts[i].NextPaymentDueDate = time.Time{} //zero value mapped to "null"
 		} else {
 			lpd := lastPaymentDate(i, payments)
 			insfreq := paymentPlans[i].InstallmentFrequency
@@ -122,7 +122,6 @@ func updateNextPaymentDueDate(debts []Debt, paymentPlans []PaymentPlan, payments
 			} else if insfreq == "BI_WEEKLY" {
 				debts[i].NextPaymentDueDate = lpd.Add(twoWeeks)
 			} else {
-				//Create an error: frequency out of range
 				return errors.New("Unknown Payment Plan Frequency")
 			}
 		}
