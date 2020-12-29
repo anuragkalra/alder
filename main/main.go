@@ -28,7 +28,6 @@ func main() {
 
 	outputDebts(debts, paymentPlans)
 	//fmt.Println(debts)
-	debts[0].Amount = nil
 	for _, d := range debts {
 		fmt.Println(d)
 	}
