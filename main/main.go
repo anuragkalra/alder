@@ -17,13 +17,25 @@ const (
 
 func main() {
 	debts := getDebts()
-	fmt.Println(debts)
+	//Simple way to print the json array line by line (each line is an array element)
+	for _, d := range debts {
+		fmt.Println(d)
+	}
+	fmt.Println("----")
 
 	paymentPlans := getPaymentPlans()
-	fmt.Println(paymentPlans)
+	//fmt.Println(paymentPlans)
 
 	outputDebts(debts, paymentPlans)
-	fmt.Println(debts)
+	//fmt.Println(debts)
+	debts[0].Amount = nil
+	for _, d := range debts {
+		fmt.Println(d)
+	}
+
+	fmt.Println("----")
+
+	//addRemainingAmount(debts, paymentPlans)
 }
 
 // For testing std out example
@@ -43,6 +55,22 @@ func outputDebts(debts []Debt, paymentPlans []PaymentPlan) error {
 			debts[i].IsInPaymentPlan = true
 		}
 	}
+	return nil
+}
+
+// TODO
+func addRemainingAmount(debts []Debt, paymentPlans []PaymentPlan, payments []Payment) error {
+
+	return nil
+}
+
+//Assumptions
+
+//Debt id = 2 -- Next Due Date
+//1/1 + 8 weeks = 2/26
+//Since no payment since 8/8,
+//We add 2 weeks to the last payment date
+func addNextPaymentDue(debts []Debt, paymentPlans []PaymentPlan, payments []Payment) error {
 	return nil
 }
 
